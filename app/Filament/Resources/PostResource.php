@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class PostResource extends Resource
 {
@@ -33,8 +34,17 @@ class PostResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('title')
                             ->required()
-                            ->maxLength(255)
-                            ->columnSpanFull(),
+                            ->afterStateUpdated(function ($set, $state) {
+                                $set('slug', Str::slug($state));
+                            })
+                            ->live(onBlur: true)
+                            ->maxLength(2048),
+                        Forms\Components\TextInput::make('slug')
+                            ->disabled()
+                            ->dehydrated()
+                            ->maxLength(2048)
+                            ->unique(Post::class, 'slug', ignoreRecord: true)
+                            ->placeholder(__('Slug')),
                         Forms\Components\RichEditor::make('content')
                             ->required()
                             ->maxLength(65535)
@@ -86,16 +96,22 @@ class PostResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->sortable()
+                    ->wrap()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('categories.name')
                     ->color(
-                       fn (Post $record, string $state) => Color::Hex(array_search($state, $record->categories->pluck('name','color')->toArray(), true))
+                        fn (Post $record, string $state) => Color::Hex(array_search($state, $record->categories->pluck('name', 'color')->toArray(), true))
                     )
                     ->badge(),
                 Tables\Columns\IconColumn::make('published')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('published_at')
                     ->dateTime()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Last Modified')
+                    ->since()
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('thumbnail')
                     ->searchable(),
@@ -104,11 +120,16 @@ class PostResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\ACtions\DeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
-                Tables\ACtions\ForceDeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\ACtions\DeleteAction::make(),
+                    Tables\Actions\RestoreAction::make(),
+                    Tables\ACtions\ForceDeleteAction::make(),
+                ])
+                    ->iconButton()
+                    ->icon('heroicon-m-ellipsis-horizontal')
+                    ->tooltip('View, edit, or delete this record.')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

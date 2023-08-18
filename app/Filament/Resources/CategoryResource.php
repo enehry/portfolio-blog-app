@@ -41,14 +41,16 @@ class CategoryResource extends Resource
                             ->required()
                             ->maxLength(255)
                             ->unique(Category::class, 'name')
-                            ->reactive()
+                            ->live(onBlur: true)
                             ->afterStateUpdated(function ($set, $state) {
                                 $set('slug', Str::slug($state));
                             })
                             ->placeholder(__('Name')),
                         TextInput::make('slug')
+                            ->disabled()
+                            ->dehydrated()
                             ->maxLength(255)
-                            ->unique(Category::class, 'slug')
+                            ->unique(Category::class, 'slug', ignoreRecord: true)
                             ->placeholder(__('Slug')),
                         ColorPicker::make('color')
                             ->placeholder(__('Color')),
