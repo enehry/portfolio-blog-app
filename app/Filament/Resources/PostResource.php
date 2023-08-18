@@ -19,9 +19,9 @@ class PostResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static ?string $navigationGroup = 'content';
+    protected static ?string $navigationGroup = 'Content';
 
-    protected static ?int $navigationOrder = 1;
+    protected static ?int $navigationSort = 1;
 
 
     public static function form(Form $form): Form
@@ -82,7 +82,6 @@ class PostResource extends Resource
         return $table
             ->columns([
                 // multiple rows in cell
-
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),

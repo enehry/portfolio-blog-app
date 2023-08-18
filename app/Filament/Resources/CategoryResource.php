@@ -3,14 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
+
 use App\Models\Category;
 use Closure;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Columns\ColorColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -23,7 +25,9 @@ class CategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
-    protected static ?string $navigationGroup = 'content';
+    protected static ?string $navigationGroup = 'Content';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -60,10 +64,13 @@ class CategoryResource extends Resource
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('slug')
+                    ->badge()
+                    ->color(
+                        fn (Category $category) => Color::hex($category->color)
+                    )
                     ->searchable()
                     ->sortable(),
-                ColorColumn::make('color')
-                    ->sortable(),
+
             ])
             ->filters([
                 //
