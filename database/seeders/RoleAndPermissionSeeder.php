@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -15,25 +18,29 @@ class RoleAndPermissionSeeder extends Seeder
     {
         //
 
-        Permission::create(['name' => 'user_edit']);
-        Permission::create(['name' => 'user_delete']);
-        Permission::create(['name' => 'user_create']);
-        Permission::create(['name' => 'user_view']);
+        Permission::create(['name' => User::USER_ACCESS]);
+        Permission::create(['name' => User::USER_CREATE]);
+        Permission::create(['name' => User::USER_EDIT]);
+        Permission::create(['name' => User::USER_DELETE]);
+        Permission::create(['name' => User::USER_VIEW]);
 
-        Permission::create(['name' => 'role_edit']);
-        Permission::create(['name' => 'role_delete']);
-        Permission::create(['name' => 'role_create']);
-        Permission::create(['name' => 'role_view']);
+        Permission::create(['name' => User::ROLE_ACCESS]);
+        Permission::create(['name' => User::ROLE_CREATE]);
+        Permission::create(['name' => User::ROLE_EDIT]);
+        Permission::create(['name' => User::ROLE_DELETE]);
+        Permission::create(['name' => User::ROLE_VIEW]);
 
-        Permission::create(['name' => 'post_edit']);
-        Permission::create(['name' => 'post_delete']);
-        Permission::create(['name' => 'post_create']);
-        Permission::create(['name' => 'post_view']);
+        Permission::create(['name' => Post::POST_ACCESS]);
+        Permission::create(['name' => Post::POST_CREATE]);
+        Permission::create(['name' => Post::POST_EDIT]);
+        Permission::create(['name' => Post::POST_DELETE]);
+        Permission::create(['name' => Post::POST_VIEW]);
 
-        Permission::create(['name' => 'category_edit']);
-        Permission::create(['name' => 'category_delete']);
-        Permission::create(['name' => 'category_create']);
-        Permission::create(['name' => 'category_view']);
+        Permission::create(['name' => Category::CATEGORY_ACCESS]);
+        Permission::create(['name' => Category::CATEGORY_CREATE]);
+        Permission::create(['name' => Category::CATEGORY_EDIT]);
+        Permission::create(['name' => Category::CATEGORY_DELETE]);
+        Permission::create(['name' => Category::CATEGORY_VIEW]);
 
 
     }

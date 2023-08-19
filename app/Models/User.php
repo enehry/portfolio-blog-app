@@ -17,6 +17,23 @@ class User extends Authenticatable
         HasApiTokens,
         HasFactory,
         Notifiable;
+    /*
+    * Permissions
+    */
+
+    const USER_ACCESS = 'user_access';
+    const USER_CREATE = 'user_create';
+    const USER_EDIT = 'user_edit';
+    const USER_DELETE = 'user_delete';
+    const USER_VIEW = 'user_view';
+
+    const ROLE_ACCESS = 'role_access';
+    const ROLE_CREATE = 'role_create';
+    const ROLE_EDIT = 'role_edit';
+    const ROLE_DELETE = 'role_delete';
+    const ROLE_VIEW = 'role_view';
+
+
 
     /**
      * The attributes that are mass assignable.

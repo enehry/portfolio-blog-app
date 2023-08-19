@@ -10,6 +10,16 @@ class Category extends Model
 {
     use HasFactory;
 
+    /*
+    * Permissions
+    */
+
+    const CATEGORY_ACCESS = 'category_access';
+    const CATEGORY_CREATE = 'category_create';
+    const CATEGORY_EDIT = 'category_edit';
+    const CATEGORY_DELETE = 'category_delete';
+    const CATEGORY_VIEW = 'category_view';
+
     protected $fillable = [
         'name',
         'slug',

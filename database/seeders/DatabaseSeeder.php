@@ -3,7 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +22,21 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $superAdmin = Role::create(['name' => 'super admin']);
+
+        User::create(
+            [
+                'name' => 'Super Admin',
+                'email' => 'super.admin@mail.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        )->assignRole($superAdmin);
+
+        $this->call([
+            RoleAndPermissionSeeder::class
+        ]);
+
     }
 }

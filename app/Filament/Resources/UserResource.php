@@ -49,7 +49,7 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('email')
                             ->required()
                             ->email()
-                            ->unique(User::class, 'email')
+                            ->unique(ignoreRecord: true)
                             ->placeholder(__('Email address')),
                         Forms\Components\TextInput::make('password')
                             ->password()

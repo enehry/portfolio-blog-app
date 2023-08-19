@@ -12,6 +12,15 @@ class Post extends Model
 {
     use HasFactory, SoftDeletes;
 
+    /*
+    * Permissions
+    */
+    const POST_ACCESS = 'post_access';
+    const POST_CREATE = 'post_create';
+    const POST_EDIT = 'post_edit';
+    const POST_DELETE = 'post_delete';
+    const POST_VIEW = 'post_view';
+
     protected $fillable = [
         'user_id',
         'title',
